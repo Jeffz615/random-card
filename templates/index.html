@@ -1,0 +1,74 @@
+<html lang="zh_cn">
+<head>
+    <meta charset="UTF-8">
+    <title>歌曲抽取工具</title>
+    <link rel="stylesheet" href="static/main.css">
+</head>
+<body>
+<div class="main_wrapper">
+    <script>
+        function display_class(element) {
+            let class_val = element.getAttribute("class");
+            class_val = class_val.replace("item_hidden", "").replace("item_display", "").replace(/\s+/gm, ' ').trim();
+            class_val = class_val.concat(" item_display");
+            element.setAttribute("class", class_val);
+        }
+
+        function choice_class(element) {
+            let class_val = element.getAttribute("class");
+            class_val = class_val.replace("item_choice", "").replace("item_nochoice", "").replace(/\s+/gm, ' ').trim();
+            class_val = class_val.concat(" item_choice");
+            element.setAttribute("class", class_val);
+        }
+
+        function display_all() {
+            let item_wrappers = document.getElementsByClassName("item_wrapper");
+            for (let i = 0; i < item_wrappers.length; i++) {
+                display_class(item_wrappers[i]);
+            }
+        }
+
+        function display_click(element) {
+            if (element) {
+                display_class(element);
+                choice_class(element);
+            }
+        }
+
+        function display_random(class_name) {
+            let elements = document.getElementsByClassName(class_name);
+            let index = Math.floor(Math.random() * elements.length + 1);
+            console.log(index - 1);
+            display_click(elements[index - 1]);
+        }
+    </script>
+    <div class="pool_control">
+        <button onclick="location.reload()">洗牌</button>
+        <button onclick="display_all()">显示所有</button>
+    </div>
+    {% for pool in data %}
+        <div class="pool_title">{{ pool.title }}</div>
+        <button onclick="display_random('item_label_{{ pool.label }} item_nochoice')">随机抽一发</button>
+        <div class="pool_content">
+            {% for item in pool.rand_items %}
+                <div class="item_wrapper item_hidden item_label_{{ pool.label }} item_nochoice"
+                     onclick="display_click(this)">
+                    <div class="card front">
+                        <div class="item_inwrapper">
+                            <div class="item_number item">{{ item.no }}</div>
+                        </div>
+                    </div>
+                    <div class="card back">
+                        <div class="item_inwrapper">
+                            <div class="item_lang item_content item">{{ item.lang }}</div>
+                            <div class="item_song item_content item">{{ item.song }}</div>
+                            <div class="item_singer item_content item">{{ item.singer }}</div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+</body>
+</html>
