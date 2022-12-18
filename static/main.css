@@ -98,13 +98,21 @@ button:hover { /*鼠标移动时的颜色变化*/
     width: 100%;
     height: 100%;
     transition: all 0.1s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .item_inwrapper {
-    position: absolute;
-    top: 50%;
     width: 100%;
-    transform: translateY(-50%);
+    max-height: 100%;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.item_inwrapper::-webkit-scrollbar {
+    display: none;
 }
 
 .item {
@@ -139,7 +147,7 @@ button:hover { /*鼠标移动时的颜色变化*/
 
 .item_number {
     width: 100%;
-    height: 100px;
+    height: 100%;
     font-size: 30px;
     line-height: 90px;
     font-weight: bold;
